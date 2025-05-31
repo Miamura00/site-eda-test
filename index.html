@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кулинарный помощник</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-utensils"></i> Кулинарный помощник</h1>
+        <p class="subtitle">Введите ингредиенты, которые у вас есть, и мы подберём подходящие рецепты</p>
+    </header>
+    
+    <div class="input-container">
+        <input type="text" id="ingredient-input" placeholder="Например: яйца, мука, молоко..." autocomplete="off">
+        <button id="add-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить</button>
+        <button id="find-btn" class="btn btn-primary"><i class="fas fa-search"></i> Найти рецепты</button>
+        <button id="clear-btn" class="btn btn-secondary"><i class="fas fa-trash-alt"></i> Очистить</button>
+    </div>
+    
+    <div id="ingredient-list">
+        <p class="placeholder-text">Ваши ингредиенты появятся здесь</p>
+    </div>
+    
+    <div class="settings-panel">
+        <div class="settings-group">
+            <h3><i class="fas fa-flag"></i> Кухни:</h3>
+            <div id="country-filters" class="filters-container">
+                <label><input type="checkbox" name="country" value="Грузия" checked> Грузия</label>
+                <label><input type="checkbox" name="country" value="Россия" checked> Россия</label>
+                <label><input type="checkbox" name="country" value="Япония" checked> Япония</label>
+                <label><input type="checkbox" name="country" value="Италия" checked> Италия</label>
+                <label><input type="checkbox" name="country" value="Мексика" checked> Мексика</label>
+            </div>
+        </div>
+        
+        <div class="settings-group">
+            <h3><i class="fas fa-sliders-h"></i> Настройки поиска:</h3>
+            <label class="switch">
+                <input type="checkbox" id="partial-match-toggle" checked>
+                <span class="slider round"></span>
+                <span>Показывать частичные совпадения</span>
+            </label>
+            <label class="switch">
+                <input type="checkbox" id="show-missing-toggle">
+                <span class="slider round"></span>
+                <span>Показывать недостающие ингредиенты</span>
+            </label>
+        </div>
+    </div>
+    
+    <div id="result"></div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
