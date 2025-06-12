@@ -10,6 +10,22 @@
     --transition: all 0.3s ease;
 }
 
+/* Цветовые схемы для разных режимов */
+body.quick-mode {
+    --primary-color: #4a9fe0;
+    --secondary-color: #6bb9f0;
+}
+
+body.healthy-mode {
+    --primary-color: #4CAF50;
+    --secondary-color: #66BB6A;
+}
+
+body.presentation-mode {
+    --primary-color: #9C27B0;
+    --secondary-color: #AB47BC;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -44,6 +60,7 @@ h1 {
 .subtitle {
     color: var(--light-text);
     font-size: 1rem;
+    margin-bottom: 15px;
 }
 
 .input-container {
@@ -220,6 +237,67 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
+/* Модальное окно выбора режима */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.mode-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.mode-option {
+    flex: 1;
+    min-width: 200px;
+    padding: 25px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #eee;
+}
+
+.mode-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+}
+
+.mode-option i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.mode-option h3 {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+/* Результаты поиска */
 #result {
     margin-top: 20px;
 }
@@ -231,6 +309,11 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.search-info {
+    color: var(--light-text);
+    margin-bottom: 20px;
 }
 
 .country-section {
@@ -262,6 +345,56 @@ input:checked + .slider:before {
     transition: var(--transition);
 }
 
+.dish:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dish-name {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dish-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+/* Блок пищевой ценности */
+.nutrition-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+.nutrition-item {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    padding: 5px;
+}
+
+.nutrition-value {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.nutrition-label {
+    font-size: 0.8rem;
+    color: #666;
+}
+
 .dish-ingredients {
     color: var(--light-text);
     margin-bottom: 15px;
@@ -283,26 +416,9 @@ input:checked + .slider:before {
     margin-left: 5px;
 }
 
-.dish:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.dish-name {
-    font-size: 1.4rem;
+.matched {
     color: var(--primary-color);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.dish-meta {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
-    color: var(--light-text);
-    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 .dish-recipe {
@@ -358,11 +474,6 @@ input:checked + .slider:before {
     margin-right: 5px;
 }
 
-.matched {
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
 @media (max-width: 600px) {
     body {
         padding: 15px;
@@ -393,5 +504,17 @@ input:checked + .slider:before {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+    
+    .mode-options {
+        flex-direction: column;
+    }
+    
+    .mode-option {
+        min-width: 100%;
+    }
+    
+    .nutrition-item {
+        min-width: 80px;
     }
 }

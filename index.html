@@ -11,6 +11,9 @@
     <header>
         <h1><i class="fas fa-utensils"></i> Кулинарный помощник</h1>
         <p class="subtitle">Введите ингредиенты, которые у вас есть, и мы подберём подходящие рецепты</p>
+        <button id="change-mode-btn" class="btn btn-secondary">
+            <i class="fas fa-sliders-h"></i> Сменить режим
+        </button>
     </header>
     
     <div class="input-container">
@@ -53,6 +56,29 @@
     
     <div id="result"></div>
 
+    <div id="mode-modal" class="modal">
+        <div class="modal-content">
+            <h2>Выберите режим</h2>
+            <div class="mode-options">
+                <div class="mode-option" data-mode="quick">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Быстрее легче</h3>
+                    <p>Рецепты, которые можно приготовить быстро</p>
+                </div>
+                <div class="mode-option" data-mode="healthy">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Правильное питание</h3>
+                    <p>Сбалансированные и полезные блюда</p>
+                </div>
+                <div class="mode-option" data-mode="presentation">
+                    <i class="fas fa-camera"></i>
+                    <h3>Красивая подача</h3>
+                    <p>Блюда с эффектной подачей</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
