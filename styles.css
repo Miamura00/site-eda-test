@@ -474,6 +474,28 @@ input:checked + .slider:before {
     margin-right: 5px;
 }
 
+/* Стили для помощника поиска */
+#search-helper {
+    margin-top: 5px;
+    background-color: var(--card-bg);
+}
+
+.helper-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-bottom: 1px solid #eee;
+}
+
+.helper-item:last-child {
+    border-bottom: none;
+}
+
+.helper-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
 @media (max-width: 600px) {
     body {
         padding: 15px;
