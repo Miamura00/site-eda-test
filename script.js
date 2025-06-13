@@ -464,7 +464,7 @@ for (const [base, variants] of Object.entries(ingredientDictionary)) {
 }
 
 let selectedIngredients = [];
-let currentMode = 'quick'; // По умолчанию
+let currentMode = 'quick';
 let isAuthenticated = false;
 let userAddedDishes = JSON.parse(localStorage.getItem('userAddedDishes')) || [];
 let allDishes = [...dishes, ...userAddedDishes];
