@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="auth-container">
+        <button id="auth-btn" class="btn btn-auth">
+            <i class="fas fa-user"></i>
+        </button>
+    </div>
+    
     <header>
         <h1><i class="fas fa-utensils"></i> Кулинарный помощник</h1>
         <p class="subtitle">Введите ингредиенты, которые у вас есть, и мы подберём подходящие рецепты</p>  
@@ -78,7 +84,100 @@
             </div>
         </div>
     </div>
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-user"></i> Авторизация</h2>
+            <div class="auth-form">
+                <div class="form-group">
+                    <label for="login">Логин:</label>
+                    <input type="text" id="login" placeholder="Введите логин">
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" placeholder="Введите пароль">
+                </div>
+                <button id="login-btn" class="btn btn-primary">Войти</button>
+                <div id="auth-error" class="error-message"></div>
+            </div>
+        </div>
+    </div>
+<!-- Добавьте рядом с кнопкой авторизации -->
+<div class="auth-container">
+    <button id="add-recipe-btn" class="btn btn-auth" title="Добавить рецепт">
+        <i class="fas fa-plus"></i>
+    </button>
+    <button id="auth-btn" class="btn btn-auth" title="Авторизация">
+        <i class="fas fa-user"></i>
+    </button>
+</div>
 
+<!-- Добавьте новое модальное окно перед закрывающим тегом body -->
+<div id="add-recipe-modal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <span class="close-modal">&times;</span>
+        <h2><i class="fas fa-plus-circle"></i> Добавить новый рецепт</h2>
+        <div class="add-recipe-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="recipe-name">Название блюда*</label>
+                    <input type="text" id="recipe-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-country">Страна*</label>
+                    <input type="text" id="recipe-country" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="recipe-time">Время приготовления*</label>
+                    <input type="text" id="recipe-time" placeholder="например, 30 минут" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-difficulty">Сложность*</label>
+                    <select id="recipe-difficulty" required>
+                        <option value="легко">Легко</option>
+                        <option value="средне">Средне</option>
+                        <option value="сложно">Сложно</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="nutrition-grid">
+                <div class="form-group">
+                    <label for="recipe-calories">Калории (ккал)*</label>
+                    <input type="number" id="recipe-calories" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-protein">Белки (г)*</label>
+                    <input type="text" id="recipe-protein" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-fat">Жиры (г)*</label>
+                    <input type="text" id="recipe-fat" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipe-carbs">Углеводы (г)*</label>
+                    <input type="text" id="recipe-carbs" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Ингредиенты* (формат: "ингредиент: количество")</label>
+                <textarea id="recipe-ingredients" rows="4" placeholder="мука: 300 г&#10;яйцо: 2 шт&#10;молоко: 150 мл" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Рецепт* (каждый шаг с новой строки)</label>
+                <textarea id="recipe-steps" rows="6" placeholder="1. Шаг первый...&#10;2. Шаг второй..." required></textarea>
+            </div>
+            
+            <button id="submit-recipe-btn" class="btn btn-primary">Добавить рецепт</button>
+            <div id="recipe-error" class="error-message"></div>
+        </div>
+    </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>

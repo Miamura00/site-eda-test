@@ -540,3 +540,128 @@ input:checked + .slider:before {
         min-width: 80px;
     }
 }
+/* Стили для кнопки авторизации */
+.auth-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.btn-auth {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.2rem;
+}
+
+/* Стили для формы авторизации */
+.auth-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #777;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+/* Стиль для авторизованного состояния */
+.auth-success .btn-auth {
+    background-color: #4CAF50;
+}
+
+.auth-success .btn-auth i {
+    transform: rotate(0deg);
+    transition: transform 0.5s ease;
+}
+
+.auth-success .btn-auth i::before {
+    content: "\f00c";
+}
+    /* Стили для контейнера кнопок */
+.auth-container {
+    display: flex;
+    gap: 10px;
+}
+
+/* Стили для формы добавления рецепта */
+.add-recipe-form {
+    margin-top: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    resize: vertical;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    background-color: white;
+}
+
+/* Стиль для новых рецептов */
+.user-added {
+    border-left: 4px solid var(--primary-color);
+    background-color: rgba(255, 107, 107, 0.05);
+}

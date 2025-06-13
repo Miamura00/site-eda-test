@@ -465,6 +465,9 @@ for (const [base, variants] of Object.entries(ingredientDictionary)) {
 
 let selectedIngredients = [];
 let currentMode = 'quick'; // По умолчанию
+let isAuthenticated = false;
+let userAddedDishes = JSON.parse(localStorage.getItem('userAddedDishes')) || [];
+let allDishes = [...dishes, ...userAddedDishes];
 
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', function() {
@@ -509,9 +512,174 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Обработчики для авторизации
+    document.getElementById('auth-btn').addEventListener('click', function() {
+        document.getElementById('auth-modal').style.display = 'flex';
+    });
+    
+    document.querySelector('#auth-modal .close-modal').addEventListener('click', function() {
+        document.getElementById('auth-modal').style.display = 'none';
+    });
+    
+    document.getElementById('login-btn').addEventListener('click', function() {
+        const login = document.getElementById('login').value;
+        const password = document.getElementById('password').value;
+        
+        if (login === '1234' && password === '1234') {
+            isAuthenticated = true;
+            document.getElementById('auth-modal').style.display = 'none';
+            document.getElementById('auth-btn').classList.add('auth-success');
+            document.getElementById('auth-error').textContent = '';
+        } else {
+            document.getElementById('auth-error').textContent = 'Неверный логин или пароль';
+        }
+    });
+
+    // Обработчики для добавления рецептов
+    document.getElementById('add-recipe-btn').addEventListener('click', function() {
+        document.getElementById('add-recipe-modal').style.display = 'flex';
+    });
+    
+    document.querySelector('#add-recipe-modal .close-modal').addEventListener('click', function() {
+        document.getElementById('add-recipe-modal').style.display = 'none';
+    });
+    
+    document.getElementById('submit-recipe-btn').addEventListener('click', function() {
+        const name = document.getElementById('recipe-name').value.trim();
+        const country = document.getElementById('recipe-country').value.trim();
+        const time = document.getElementById('recipe-time').value.trim();
+        const difficulty = document.getElementById('recipe-difficulty').value;
+        const calories = parseInt(document.getElementById('recipe-calories').value);
+        const protein = document.getElementById('recipe-protein').value.trim();
+        const fat = document.getElementById('recipe-fat').value.trim();
+        const carbs = document.getElementById('recipe-carbs').value.trim();
+        const ingredientsText = document.getElementById('recipe-ingredients').value.trim();
+        const recipeText = document.getElementById('recipe-steps').value.trim();
+        
+        // Валидация
+        if (!name || !country || !time || !ingredientsText || !recipeText || isNaN(calories)) {
+            document.getElementById('recipe-error').textContent = 'Пожалуйста, заполните все обязательные поля';
+            return;
+        }
+        
+        // Парсинг ингредиентов
+        const ingredients = [];
+        const ingredientLines = ingredientsText.split('\n');
+        
+        for (const line of ingredientLines) {
+            const parts = line.split(':');
+            if (parts.length >= 2) {
+                const ingredientName = parts[0].trim();
+                const amount = parts.slice(1).join(':').trim();
+                if (ingredientName && amount) {
+                    ingredients.push({
+                        name: ingredientName,
+                        amount: amount
+                    });
+                }
+            }
+        }
+        
+        if (ingredients.length === 0) {
+            document.getElementById('recipe-error').textContent = 'Добавьте хотя бы один ингредиент в правильном формате';
+            return;
+        }
+        
+        // Создание нового рецепта
+        const newRecipe = {
+            name: name,
+            country: country,
+            time: time,
+            difficulty: difficulty,
+            nutrition: {
+                calories: calories,
+                protein: protein,
+                fat: fat,
+                carbs: carbs
+            },
+            ingredients: ingredients,
+            recipe: recipeText.split('\n').join('\n'),
+            isUserAdded: true
+        };
+        
+        // Добавление рецепта
+        userAddedDishes.push(newRecipe);
+        allDishes.push(newRecipe);
+        localStorage.setItem('userAddedDishes', JSON.stringify(userAddedDishes));
+        
+        // Обновление интерфейса
+        document.getElementById('add-recipe-modal').style.display = 'none';
+        document.getElementById('recipe-error').textContent = '';
+        
+        // Обновление фильтров
+        updateCountryFilters();
+        
+        // Очистка формы
+        document.getElementById('recipe-name').value = '';
+        document.getElementById('recipe-country').value = '';
+        document.getElementById('recipe-time').value = '';
+        document.getElementById('recipe-ingredients').value = '';
+        document.getElementById('recipe-steps').value = '';
+        
+        // Показываем сообщение об успехе
+        alert('Рецепт успешно добавлен!');
+    });
+    
+    // Закрытие модальных окон при клике вне их
+    window.addEventListener('click', function(event) {
+        if (event.target === document.getElementById('auth-modal')) {
+            document.getElementById('auth-modal').style.display = 'none';
+        }
+        if (event.target === document.getElementById('add-recipe-modal')) {
+            document.getElementById('add-recipe-modal').style.display = 'none';
+        }
+        if (event.target === document.getElementById('mode-modal')) {
+            document.getElementById('mode-modal').style.display = 'none';
+        }
+    });
+
     // Инициализация помощника
     initSearchHelper();
+    updateCountryFilters();
 });
+
+// Функция обновления фильтров стран
+function updateCountryFilters() {
+    const countries = [...new Set(allDishes.map(dish => dish.country))];
+    const filtersContainer = document.getElementById('country-filters');
+    
+    // Сохраняем выбранные страны
+    const checkedCountries = Array.from(document.querySelectorAll('#country-filters input:checked'))
+        .map(checkbox => checkbox.value);
+        
+    filtersContainer.innerHTML = '';
+    
+    // Добавляем стандартные страны
+    const defaultCountries = ['Грузия', 'Россия', 'Япония', 'Италия', 'Мексика'];
+    defaultCountries.forEach(country => {
+        const isChecked = checkedCountries.includes(country) || checkedCountries.length === 0;
+        filtersContainer.innerHTML += `
+            <label>
+                <input type="checkbox" name="country" value="${country}" ${isChecked ? 'checked' : ''}>
+                ${country}
+            </label>
+        `;
+    });
+    
+    // Добавляем пользовательские страны
+    const userCountries = [...new Set(userAddedDishes.map(dish => dish.country))];
+    userCountries.forEach(country => {
+        if (!defaultCountries.includes(country)) {
+            const isChecked = checkedCountries.includes(country);
+            filtersContainer.innerHTML += `
+                <label>
+                    <input type="checkbox" name="country" value="${country}" ${isChecked ? 'checked' : ''}>
+                    ${country}
+                </label>
+            `;
+        }
+    });
+}
 
 // Функция установки режима
 function setMode(mode) {
@@ -594,7 +762,7 @@ function findRecipes() {
         .map(checkbox => checkbox.value);
     
     // Фильтрация и подсчёт совпадений
-    const matchingDishes = dishes
+    const matchingDishes = allDishes
         .filter(dish => selectedCountries.length === 0 || selectedCountries.includes(dish.country))
         .map(dish => {
             const matched = dish.ingredients.map(ing => 
@@ -680,9 +848,11 @@ function findRecipes() {
         
         countryDishes.forEach(dish => {
             const isFullMatch = dish.isFullMatch;
+            const isUserAdded = dish.isUserAdded;
             
             html += `
-                <div class="dish ${isFullMatch ? '' : 'partial-match'}">
+                <div class="dish ${isFullMatch ? '' : 'partial-match'} ${isUserAdded ? 'user-added' : ''}">
+                    ${isUserAdded ? '<div class="user-added-badge">Добавлено вами</div>' : ''}
                     <div class="dish-name">
                         ${dish.name}
                         ${!isFullMatch ? `<span class="match-percentage">${dish.matchPercentage}%</span>` : ''}
